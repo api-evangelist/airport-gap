@@ -1,0 +1,15 @@
+{
+  "summary": "DELETE /favorites/clear_all — remove all saved favorites for the authenticated user",
+  "request": {
+    "method": "DELETE",
+    "url": "https://airportgap.com/api/favorites/clear_all",
+    "headers": {
+      "Authorization": "Bearer token=abc123xyz"
+    }
+  },
+  "response": {
+    "status": 204,
+    "headers": {},
+    "body": null
+  }
+}

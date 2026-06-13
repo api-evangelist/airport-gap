@@ -1,0 +1,145 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "airportgap": "https://airportgap.com/vocab#",
+    "Airport": "schema:Airport",
+    "name": "schema:name",
+    "city": {
+      "@id": "schema:addressLocality"
+    },
+    "country": {
+      "@id": "schema:addressCountry"
+    },
+    "iata": {
+      "@id": "schema:iataCode"
+    },
+    "icao": {
+      "@id": "airportgap:icaoCode"
+    },
+    "latitude": {
+      "@id": "schema:latitude",
+      "@type": "schema:Number"
+    },
+    "longitude": {
+      "@id": "schema:longitude",
+      "@type": "schema:Number"
+    },
+    "altitude": {
+      "@id": "schema:elevation",
+      "@type": "schema:Number"
+    },
+    "timezone": {
+      "@id": "airportgap:timezone"
+    },
+    "distance": {
+      "@id": "airportgap:distance"
+    },
+    "miles": {
+      "@id": "airportgap:miles",
+      "@type": "schema:Number"
+    },
+    "kilometers": {
+      "@id": "airportgap:kilometers",
+      "@type": "schema:Number"
+    },
+    "nautical_miles": {
+      "@id": "airportgap:nauticalMiles",
+      "@type": "schema:Number"
+    },
+    "from_airport": {
+      "@id": "airportgap:fromAirport",
+      "@type": "@id"
+    },
+    "to_airport": {
+      "@id": "airportgap:toAirport",
+      "@type": "@id"
+    },
+    "favorite": {
+      "@id": "airportgap:Favorite"
+    },
+    "note": {
+      "@id": "schema:description"
+    },
+    "token": {
+      "@id": "airportgap:token"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "airportgap:Airport",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Airport",
+      "rdfs:comment": "An airport record from the Airport Gap API, identified by its IATA code.",
+      "owl:sameAs": "schema:Airport"
+    },
+    {
+      "@id": "airportgap:AirportDistance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "AirportDistance",
+      "rdfs:comment": "A calculated great-circle distance between two airports expressed in miles, kilometers, and nautical miles."
+    },
+    {
+      "@id": "airportgap:Favorite",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Favorite",
+      "rdfs:comment": "A saved favorite airport belonging to an authenticated Airport Gap user, optionally annotated with a note."
+    },
+    {
+      "@id": "airportgap:icaoCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "icaoCode",
+      "rdfs:comment": "ICAO four-letter airport identifier.",
+      "rdfs:domain": "airportgap:Airport",
+      "rdfs:range": "xsd:string"
+    },
+    {
+      "@id": "airportgap:timezone",
+      "@type": "rdf:Property",
+      "rdfs:label": "timezone",
+      "rdfs:comment": "IANA timezone identifier for the airport's local time.",
+      "rdfs:domain": "airportgap:Airport",
+      "rdfs:range": "xsd:string"
+    },
+    {
+      "@id": "airportgap:miles",
+      "@type": "rdf:Property",
+      "rdfs:label": "miles",
+      "rdfs:comment": "Distance in statute miles.",
+      "rdfs:domain": "airportgap:AirportDistance",
+      "rdfs:range": "xsd:decimal"
+    },
+    {
+      "@id": "airportgap:kilometers",
+      "@type": "rdf:Property",
+      "rdfs:label": "kilometers",
+      "rdfs:comment": "Distance in kilometers.",
+      "rdfs:domain": "airportgap:AirportDistance",
+      "rdfs:range": "xsd:decimal"
+    },
+    {
+      "@id": "airportgap:nauticalMiles",
+      "@type": "rdf:Property",
+      "rdfs:label": "nauticalMiles",
+      "rdfs:comment": "Distance in nautical miles.",
+      "rdfs:domain": "airportgap:AirportDistance",
+      "rdfs:range": "xsd:decimal"
+    },
+    {
+      "@id": "airportgap:fromAirport",
+      "@type": "rdf:Property",
+      "rdfs:label": "fromAirport",
+      "rdfs:comment": "The departure airport in a distance calculation.",
+      "rdfs:domain": "airportgap:AirportDistance",
+      "rdfs:range": "airportgap:Airport"
+    },
+    {
+      "@id": "airportgap:toAirport",
+      "@type": "rdf:Property",
+      "rdfs:label": "toAirport",
+      "rdfs:comment": "The destination airport in a distance calculation.",
+      "rdfs:domain": "airportgap:AirportDistance",
+      "rdfs:range": "airportgap:Airport"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Airport Gap API Vocabulary",
+  "description": "Domain terms and definitions used in the Airport Gap REST API.",
+  "version": "1.0.0",
+  "source": "https://airportgap.com/docs",
+  "terms": [
+    {
+      "term": "IATA",
+      "definition": "International Air Transport Association. The three-letter code used to uniquely identify commercial airports worldwide (e.g. JFK, LAX, LHR).",
+      "examples": ["JFK", "LAX", "LHR"]
+    },
+    {
+      "term": "ICAO",
+      "definition": "International Civil Aviation Organization. The four-letter code used to identify airports in aviation communications and operations (e.g. KJFK, KLAX, EGLL).",
+      "examples": ["KJFK", "KLAX", "EGLL"]
+    },
+    {
+      "term": "airport",
+      "definition": "A JSON:API resource object representing a single airport, identified by its IATA code. Contains name, city, country, coordinates, elevation, and timezone.",
+      "type": "JSON:API resource type"
+    },
+    {
+      "term": "airport_distance",
+      "definition": "A JSON:API resource object representing the calculated great-circle distance between two airports, returned in miles, kilometers, and nautical miles.",
+      "type": "JSON:API resource type"
+    },
+    {
+      "term": "favorite",
+      "definition": "A JSON:API resource object representing an authenticated user's saved airport, optionally annotated with a user-supplied note.",
+      "type": "JSON:API resource type"
+    },
+    {
+      "term": "Bearer token",
+      "definition": "An opaque authentication token returned by POST /tokens and used in the Authorization header (format: 'Bearer token=<value>') to access protected endpoints.",
+      "format": "Authorization: Bearer token=<value>"
+    },
+    {
+      "term": "great-circle distance",
+      "definition": "The shortest path between two points on the surface of a sphere (the Earth). Airport Gap uses this calculation to compute distances between airports.",
+      "unit": "miles, kilometers, nautical miles"
+    },
+    {
+      "term": "nautical mile",
+      "definition": "A unit of distance equal to one minute of arc of latitude, approximately 1.852 kilometers or 1.15078 statute miles. Used in aviation and navigation.",
+      "abbreviation": "nm"
+    },
+    {
+      "term": "altitude",
+      "definition": "The elevation of an airport above mean sea level, expressed in feet.",
+      "unit": "feet"
+    },
+    {
+      "term": "JSON:API",
+      "definition": "A specification for building APIs in JSON. Airport Gap responses follow JSON:API format with 'data', 'links', and 'errors' top-level members.",
+      "url": "https://jsonapi.org"
+    },
+    {
+      "term": "pagination",
+      "definition": "Airport Gap returns 30 records per page for list endpoints. Navigate pages using the ?page query parameter. Links to first, prev, next, and last pages are included in the 'links' object.",
+      "pageSize": 30
+    },
+    {
+      "term": "note",
+      "definition": "An optional free-text string that authenticated users can attach to a saved favorite airport for personal reference.",
+      "nullable": true
+    },
+    {
+      "term": "ODbL",
+      "definition": "Open Database License version 1.0. The license under which Airport Gap's airport data (sourced from OpenFlights.org) is made available.",
+      "url": "https://opendatacommons.org/licenses/odbl/1-0/"
+    }
+  ]
+}

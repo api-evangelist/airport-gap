@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://airportgap.com/schemas/favorite.json",
+  "title": "Favorite",
+  "description": "A saved favorite airport record for an authenticated Airport Gap user (JSON:API format).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Numeric ID of the favorite record.",
+      "examples": ["42"]
+    },
+    "type": {
+      "type": "string",
+      "const": "favorite"
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Favorite attributes.",
+      "properties": {
+        "airport": {
+          "$ref": "airport.json",
+          "description": "The saved airport record."
+        },
+        "note": {
+          "type": ["string", "null"],
+          "description": "Optional user note attached to this favorite.",
+          "examples": ["Great layover airport", null]
+        }
+      },
+      "required": ["airport"]
+    }
+  },
+  "required": ["id", "type", "attributes"]
+}

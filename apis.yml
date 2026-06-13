@@ -47,6 +47,8 @@ apis:
         url: https://github.com/dennmart/airport_gap
       - type: RateLimits
         url: rate-limits/airport-gap-rate-limits.yml
+      - type: OpenAPI
+        url: openapi/openapi.yml
       - type: Plans
         url: plans/airport-gap-plans-pricing.yml
       - type: FinOps

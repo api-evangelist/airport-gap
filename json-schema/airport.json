@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://airportgap.com/schemas/airport.json",
+  "title": "Airport",
+  "description": "A single airport record as returned by the Airport Gap API (JSON:API format).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "IATA airport code (e.g. 'JFK').",
+      "pattern": "^[A-Z]{3}$",
+      "examples": ["JFK", "LAX", "LHR"]
+    },
+    "type": {
+      "type": "string",
+      "const": "airport"
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Airport attributes.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the airport.",
+          "examples": ["John F. Kennedy International Airport"]
+        },
+        "city": {
+          "type": "string",
+          "description": "City where the airport is located.",
+          "examples": ["New York"]
+        },
+        "country": {
+          "type": "string",
+          "description": "Country where the airport is located.",
+          "examples": ["United States"]
+        },
+        "iata": {
+          "type": "string",
+          "description": "IATA airport code.",
+          "pattern": "^[A-Z]{3}$",
+          "examples": ["JFK"]
+        },
+        "icao": {
+          "type": "string",
+          "description": "ICAO airport code.",
+          "pattern": "^[A-Z]{4}$",
+          "examples": ["KJFK"]
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Latitude coordinate of the airport.",
+          "examples": ["40.639751"]
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Longitude coordinate of the airport.",
+          "examples": ["-73.778925"]
+        },
+        "altitude": {
+          "type": "integer",
+          "description": "Elevation of the airport in feet.",
+          "examples": [13]
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone identifier.",
+          "examples": ["America/New_York"]
+        }
+      },
+      "required": ["name", "city", "country", "iata", "icao", "latitude", "longitude", "altitude", "timezone"]
+    }
+  },
+  "required": ["id", "type", "attributes"]
+}

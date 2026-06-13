@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://airportgap.com/schemas/distance.json",
+  "title": "AirportDistance",
+  "description": "Great-circle distance result between two airports as returned by POST /airports/distance.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier composed of the two IATA codes separated by a hyphen.",
+      "examples": ["JFK-LAX"]
+    },
+    "type": {
+      "type": "string",
+      "const": "airport_distance"
+    },
+    "attributes": {
+      "type": "object",
+      "description": "Distance attributes.",
+      "properties": {
+        "from_airport": {
+          "$ref": "airport.json",
+          "description": "Departure airport."
+        },
+        "to_airport": {
+          "$ref": "airport.json",
+          "description": "Destination airport."
+        },
+        "miles": {
+          "type": "number",
+          "description": "Distance in miles.",
+          "examples": [2475.6]
+        },
+        "kilometers": {
+          "type": "number",
+          "description": "Distance in kilometers.",
+          "examples": [3984.2]
+        },
+        "nautical_miles": {
+          "type": "number",
+          "description": "Distance in nautical miles.",
+          "examples": [2150.8]
+        }
+      },
+      "required": ["from_airport", "to_airport", "miles", "kilometers", "nautical_miles"]
+    }
+  },
+  "required": ["id", "type", "attributes"]
+}

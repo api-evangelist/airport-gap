@@ -1,0 +1,31 @@
+{
+  "summary": "GET /airports/JFK — retrieve JFK airport by IATA code",
+  "request": {
+    "method": "GET",
+    "url": "https://airportgap.com/api/airports/JFK",
+    "headers": {}
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "id": "JFK",
+        "type": "airport",
+        "attributes": {
+          "name": "John F. Kennedy International Airport",
+          "city": "New York",
+          "country": "United States",
+          "iata": "JFK",
+          "icao": "KJFK",
+          "latitude": "40.639751",
+          "longitude": "-73.778925",
+          "altitude": 13,
+          "timezone": "America/New_York"
+        }
+      }
+    }
+  }
+}

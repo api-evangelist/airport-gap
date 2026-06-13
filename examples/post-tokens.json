@@ -1,0 +1,23 @@
+{
+  "summary": "POST /tokens — generate a Bearer token for API authentication",
+  "request": {
+    "method": "POST",
+    "url": "https://airportgap.com/api/tokens",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "email": "user@example.com",
+      "password": "s3cr3tpassword"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "token": "abc123xyz"
+    }
+  }
+}

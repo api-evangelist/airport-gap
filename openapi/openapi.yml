@@ -1,0 +1,726 @@
+openapi: 3.1.0
+info:
+  title: Airport Gap REST API
+  description: >-
+    Airport Gap is a RESTful API designed to help developers practice API automation testing.
+    It provides access to a database of worldwide airports including ICAO/IATA codes, location
+    coordinates, elevation, and country information. The API also supports calculating distances
+    between airports in miles, kilometers, and nautical miles, and allows authenticated users
+    to save and manage favorite airports. Responses conform to the JSON:API specification.
+    Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).
+  version: 1.0.0
+  contact:
+    url: https://airportgap.com
+  license:
+    name: MIT
+    url: https://github.com/dennmart/airport_gap/blob/main/LICENCE
+  x-source: https://airportgap.com/docs
+servers:
+  - url: https://airportgap.com/api
+    description: Production
+externalDocs:
+  description: Airport Gap API Documentation
+  url: https://airportgap.com/docs
+tags:
+  - name: Airports
+    description: Retrieve airport information by IATA code or browse the full database.
+  - name: Distance
+    description: Calculate great-circle distances between two airports.
+  - name: Tokens
+    description: Generate Bearer tokens for authenticated access.
+  - name: Favorites
+    description: Manage saved favorite airports (authenticated users only).
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: >-
+        Token-based authentication. Include the token generated from POST /tokens.
+        Header format: Authorization: Bearer token=<Your Airport Gap Token>
+  schemas:
+    Airport:
+      type: object
+      description: Represents a single airport record conforming to JSON:API.
+      properties:
+        id:
+          type: string
+          description: IATA airport code (e.g. "JFK").
+          example: JFK
+        type:
+          type: string
+          enum: [airport]
+          example: airport
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Full name of the airport.
+              example: John F. Kennedy International Airport
+            city:
+              type: string
+              description: City where the airport is located.
+              example: New York
+            country:
+              type: string
+              description: Country where the airport is located.
+              example: United States
+            iata:
+              type: string
+              description: IATA airport code.
+              example: JFK
+            icao:
+              type: string
+              description: ICAO airport code.
+              example: KJFK
+            latitude:
+              type: string
+              description: Latitude coordinate of the airport.
+              example: "40.639751"
+            longitude:
+              type: string
+              description: Longitude coordinate of the airport.
+              example: "-73.778925"
+            altitude:
+              type: integer
+              description: Elevation of the airport in feet.
+              example: 13
+            timezone:
+              type: string
+              description: Timezone identifier.
+              example: America/New_York
+    AirportData:
+      type: object
+      description: JSON:API envelope for a single airport.
+      properties:
+        data:
+          $ref: '#/components/schemas/Airport'
+    AirportListData:
+      type: object
+      description: JSON:API envelope for a paginated list of airports.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Airport'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+    PaginationLinks:
+      type: object
+      description: JSON:API pagination links.
+      properties:
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the previous page (null if on first page).
+        next:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the next page (null if on last page).
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    DistanceAttributes:
+      type: object
+      description: Distance measurements between two airports.
+      properties:
+        from_airport:
+          $ref: '#/components/schemas/Airport'
+        to_airport:
+          $ref: '#/components/schemas/Airport'
+        miles:
+          type: number
+          format: float
+          description: Distance in miles.
+          example: 2475.6
+        kilometers:
+          type: number
+          format: float
+          description: Distance in kilometers.
+          example: 3984.2
+        nautical_miles:
+          type: number
+          format: float
+          description: Distance in nautical miles.
+          example: 2150.8
+    DistanceData:
+      type: object
+      description: JSON:API envelope for distance result.
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Identifier composed of the two IATA codes.
+              example: JFK-LAX
+            type:
+              type: string
+              enum: [airport_distance]
+            attributes:
+              $ref: '#/components/schemas/DistanceAttributes'
+    TokenResponse:
+      type: object
+      description: Bearer token returned after successful authentication.
+      properties:
+        token:
+          type: string
+          description: The API Bearer token to use in subsequent authenticated requests.
+          example: abc123xyz
+    Favorite:
+      type: object
+      description: Represents a saved favorite airport record conforming to JSON:API.
+      properties:
+        id:
+          type: string
+          description: Numeric ID of the favorite record.
+          example: "42"
+        type:
+          type: string
+          enum: [favorite]
+          example: favorite
+        attributes:
+          type: object
+          properties:
+            airport:
+              $ref: '#/components/schemas/Airport'
+            note:
+              type: string
+              nullable: true
+              description: Optional user note attached to the favorite.
+              example: Great layover airport
+    FavoriteData:
+      type: object
+      description: JSON:API envelope for a single favorite.
+      properties:
+        data:
+          $ref: '#/components/schemas/Favorite'
+    FavoriteListData:
+      type: object
+      description: JSON:API envelope for a paginated list of favorites.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Favorite'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
+paths:
+  /airports:
+    get:
+      operationId: listAirports
+      summary: List airports
+      description: >-
+        Returns a paginated list of all airports in the database. Each page contains
+        up to 30 airport records. Use the ?page parameter to navigate pages.
+      tags:
+        - Airports
+      parameters:
+        - name: page
+          in: query
+          description: Page number to retrieve (1-based).
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 2
+      responses:
+        '200':
+          description: Paginated list of airports.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AirportListData'
+              example:
+                data:
+                  - id: JFK
+                    type: airport
+                    attributes:
+                      name: John F. Kennedy International Airport
+                      city: New York
+                      country: United States
+                      iata: JFK
+                      icao: KJFK
+                      latitude: "40.639751"
+                      longitude: "-73.778925"
+                      altitude: 13
+                      timezone: America/New_York
+                links:
+                  first: https://airportgap.com/api/airports?page=1
+                  prev: null
+                  next: https://airportgap.com/api/airports?page=2
+                  last: https://airportgap.com/api/airports?page=450
+        '429':
+          description: Rate limit exceeded (100 requests per minute).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /airports/{id}:
+    get:
+      operationId: getAirport
+      summary: Get airport by IATA code
+      description: >-
+        Retrieves a single airport record by its IATA code. Returns full details
+        including name, city, country, IATA/ICAO codes, coordinates, and altitude.
+      tags:
+        - Airports
+      parameters:
+        - name: id
+          in: path
+          description: IATA airport code (3 letters, e.g. "JFK").
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Z]{3}$'
+          example: JFK
+      responses:
+        '200':
+          description: Single airport record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AirportData'
+              example:
+                data:
+                  id: JFK
+                  type: airport
+                  attributes:
+                    name: John F. Kennedy International Airport
+                    city: New York
+                    country: United States
+                    iata: JFK
+                    icao: KJFK
+                    latitude: "40.639751"
+                    longitude: "-73.778925"
+                    altitude: 13
+                    timezone: America/New_York
+        '404':
+          description: Airport not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /airports/distance:
+    post:
+      operationId: calculateDistance
+      summary: Calculate distance between airports
+      description: >-
+        Calculates the great-circle distance between two airports identified by their
+        IATA codes. Returns the distance in miles, kilometers, and nautical miles.
+      tags:
+        - Distance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - from
+                - to
+              properties:
+                from:
+                  type: string
+                  description: IATA code of the departure airport.
+                  example: JFK
+                to:
+                  type: string
+                  description: IATA code of the destination airport.
+                  example: LAX
+            example:
+              from: JFK
+              to: LAX
+      responses:
+        '200':
+          description: Distance result between two airports.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistanceData'
+              example:
+                data:
+                  id: JFK-LAX
+                  type: airport_distance
+                  attributes:
+                    from_airport:
+                      id: JFK
+                      type: airport
+                      attributes:
+                        name: John F. Kennedy International Airport
+                        city: New York
+                        country: United States
+                        iata: JFK
+                        icao: KJFK
+                        latitude: "40.639751"
+                        longitude: "-73.778925"
+                        altitude: 13
+                        timezone: America/New_York
+                    to_airport:
+                      id: LAX
+                      type: airport
+                      attributes:
+                        name: Los Angeles International Airport
+                        city: Los Angeles
+                        country: United States
+                        iata: LAX
+                        icao: KLAX
+                        latitude: "33.942536"
+                        longitude: "-118.408075"
+                        altitude: 125
+                        timezone: America/Los_Angeles
+                    miles: 2475.6
+                    kilometers: 3984.2
+                    nautical_miles: 2150.8
+        '422':
+          description: Missing or invalid IATA codes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /tokens:
+    post:
+      operationId: generateToken
+      summary: Generate API token
+      description: >-
+        Authenticates a registered user with email and password and returns a Bearer token
+        for use in subsequent authenticated API requests. Register at
+        https://airportgap.com/tokens/new.
+      tags:
+        - Tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Registered user email address.
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  description: User account password.
+                  example: s3cr3tpassword
+            example:
+              email: user@example.com
+              password: s3cr3tpassword
+      responses:
+        '200':
+          description: API token generated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+              example:
+                token: abc123xyz
+        '422':
+          description: Invalid email or password.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /favorites:
+    get:
+      operationId: listFavorites
+      summary: List favorite airports
+      description: >-
+        Returns a paginated list of the authenticated user's saved favorite airports.
+        Each page contains up to 30 records.
+      tags:
+        - Favorites
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number to retrieve (1-based).
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        '200':
+          description: Paginated list of favorite airports.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteListData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: addFavorite
+      summary: Add favorite airport
+      description: >-
+        Saves an airport to the authenticated user's favorites list. An optional note
+        can be attached to the favorite.
+      tags:
+        - Favorites
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - airport_id
+              properties:
+                airport_id:
+                  type: string
+                  description: IATA code of the airport to save.
+                  example: JFK
+                note:
+                  type: string
+                  description: Optional note about this favorite airport.
+                  example: Great layover airport
+            example:
+              airport_id: JFK
+              note: Great layover airport
+      responses:
+        '201':
+          description: Favorite airport created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Missing or invalid airport_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /favorites/{id}:
+    get:
+      operationId: getFavorite
+      summary: Get favorite airport
+      description: Retrieves a single saved favorite airport record by its numeric ID.
+      tags:
+        - Favorites
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Numeric ID of the favorite record.
+          required: true
+          schema:
+            type: integer
+          example: 42
+      responses:
+        '200':
+          description: Single favorite airport record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Favorite record not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: updateFavorite
+      summary: Update favorite airport note
+      description: Updates the note attached to a saved favorite airport.
+      tags:
+        - Favorites
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Numeric ID of the favorite record.
+          required: true
+          schema:
+            type: integer
+          example: 42
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: string
+                  nullable: true
+                  description: Updated note for the favorite airport.
+                  example: Updated note
+            example:
+              note: Updated note
+      responses:
+        '200':
+          description: Favorite airport updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Favorite record not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteFavorite
+      summary: Delete favorite airport
+      description: Removes a single saved favorite airport by its numeric ID.
+      tags:
+        - Favorites
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Numeric ID of the favorite record.
+          required: true
+          schema:
+            type: integer
+          example: 42
+      responses:
+        '204':
+          description: Favorite deleted successfully (no content).
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Favorite record not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /favorites/clear_all:
+    delete:
+      operationId: clearAllFavorites
+      summary: Clear all favorite airports
+      description: Removes all saved favorite airports for the authenticated user in a single operation.
+      tags:
+        - Favorites
+      security:
+        - BearerAuth: []
+      responses:
+        '204':
+          description: All favorites cleared successfully (no content).
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

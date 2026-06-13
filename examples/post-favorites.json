@@ -1,0 +1,45 @@
+{
+  "summary": "POST /favorites — add JFK to authenticated user's favorites with a note",
+  "request": {
+    "method": "POST",
+    "url": "https://airportgap.com/api/favorites",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer token=abc123xyz"
+    },
+    "body": {
+      "airport_id": "JFK",
+      "note": "Great layover airport"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "id": "42",
+        "type": "favorite",
+        "attributes": {
+          "airport": {
+            "id": "JFK",
+            "type": "airport",
+            "attributes": {
+              "name": "John F. Kennedy International Airport",
+              "city": "New York",
+              "country": "United States",
+              "iata": "JFK",
+              "icao": "KJFK",
+              "latitude": "40.639751",
+              "longitude": "-73.778925",
+              "altitude": 13,
+              "timezone": "America/New_York"
+            }
+          },
+          "note": "Great layover airport"
+        }
+      }
+    }
+  }
+}

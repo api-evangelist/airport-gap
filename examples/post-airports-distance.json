@@ -1,0 +1,61 @@
+{
+  "summary": "POST /airports/distance — calculate distance between JFK and LAX",
+  "request": {
+    "method": "POST",
+    "url": "https://airportgap.com/api/airports/distance",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "from": "JFK",
+      "to": "LAX"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "data": {
+        "id": "JFK-LAX",
+        "type": "airport_distance",
+        "attributes": {
+          "from_airport": {
+            "id": "JFK",
+            "type": "airport",
+            "attributes": {
+              "name": "John F. Kennedy International Airport",
+              "city": "New York",
+              "country": "United States",
+              "iata": "JFK",
+              "icao": "KJFK",
+              "latitude": "40.639751",
+              "longitude": "-73.778925",
+              "altitude": 13,
+              "timezone": "America/New_York"
+            }
+          },
+          "to_airport": {
+            "id": "LAX",
+            "type": "airport",
+            "attributes": {
+              "name": "Los Angeles International Airport",
+              "city": "Los Angeles",
+              "country": "United States",
+              "iata": "LAX",
+              "icao": "KLAX",
+              "latitude": "33.942536",
+              "longitude": "-118.408075",
+              "altitude": 125,
+              "timezone": "America/Los_Angeles"
+            }
+          },
+          "miles": 2475.6,
+          "kilometers": 3984.2,
+          "nautical_miles": 2150.8
+        }
+      }
+    }
+  }
+}
