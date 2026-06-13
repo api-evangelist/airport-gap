@@ -1,0 +1,64 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Airport Gap
+providerId: airport-gap
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: false
+tags:
+  - Airports
+  - Aviation
+  - Free
+  - Open Source
+description: >-
+  Airport Gap is a free, open-source API with no published paid tiers. Account registration
+  (email and password) is required only to access the favorites endpoints; all airport data
+  retrieval and distance calculation endpoints are publicly accessible without authentication.
+  The service is maintained by Dennis Martinez / Dev Tester as a practice target for API
+  automation testers and is free to use within the published rate limit of 100 requests per
+  minute per IP address.
+sources:
+  - https://airportgap.com
+  - https://airportgap.com/docs
+  - https://github.com/dennmart/airport_gap
+plans:
+  - id: airport-gap-free
+    name: Free
+    type: free
+    description: >-
+      Full public access to all airport data and distance calculation endpoints with no API key required.
+      Registration is required only for the favorites management endpoints. The service is free to use
+      within the 100 requests-per-minute rate limit.
+    entries:
+      - label: API access
+        name: api_access
+        type: flat
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: 'Free'
+        userMultiplied: false
+      - label: Requests per minute
+        name: requests_per_minute
+        type: rate-limit
+        metric: request
+        limit: 100
+        timeFrame: minute
+        geo: global
+        unit: 1
+        price: 'included'
+        userMultiplied: false
+    elements:
+      - name: GET /airports (paginated airport list)
+      - name: GET /airports/:id (airport by IATA code)
+      - name: POST /airports/distance (distance between airports)
+      - name: POST /tokens (generate auth token)
+      - name: GET /favorites (requires token)
+      - name: GET /favorites/:id (requires token)
+      - name: POST /favorites (requires token)
+      - name: PATCH /favorites/:id (requires token)
+      - name: DELETE /favorites/:id (requires token)
+      - name: DELETE /favorites/clear_all (requires token)

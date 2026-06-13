@@ -1,0 +1,48 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Airport Gap
+providerId: airport-gap
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: false
+tags:
+  - Rate Limiting
+  - Airports
+  - Aviation
+description: >-
+  Airport Gap enforces a single rate limit of 100 requests per minute tracked by IP address,
+  applied uniformly across all endpoints (public and authenticated). Exceeding the limit returns
+  HTTP 429 Too Many Requests. The window resets every 60 seconds. There are no per-key, per-day,
+  or monthly quota caps; the only throttle is the per-IP per-minute ceiling.
+sources:
+  - https://airportgap.com/docs
+responseCodes:
+  rateLimitExceeded: 429
+  unauthorized: 401
+  notFound: 404
+  validationError: 422
+limits:
+  - name: Requests per minute (per IP)
+    scope: ip
+    metric: requests_per_minute
+    limit: 100
+    timeFrame: minute
+    notes: >-
+      Applied to all endpoints regardless of authentication status. Tracked by the caller's IP
+      address. Resets every 60 seconds. Exceeding the limit returns HTTP 429.
+policies:
+  - name: IP-based tracking
+    description: >-
+      Rate limit counters are keyed to the caller's IP address. All 10 Airport Gap endpoints
+      share the same counter; there is no per-endpoint or per-token differentiation.
+  - name: Per-minute window reset
+    description: The 100-request counter resets every minute. There is no concept of a daily or monthly quota.
+  - name: 429 on limit breach
+    description: >-
+      When the limit is exceeded the API responds with HTTP 429 Too Many Requests. Callers should
+      implement exponential backoff and wait for the next minute window before retrying.
+  - name: No authenticated-vs-public split
+    description: >-
+      Authenticated requests (Bearer token) and unauthenticated requests share the same per-IP limit.
+      Token ownership does not grant a higher rate limit.

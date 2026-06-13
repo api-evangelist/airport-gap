@@ -1,0 +1,109 @@
+aid: airport-gap
+name: Airport Gap
+description: >-
+  Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a
+  database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information.
+  The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows
+  authenticated users to save and manage favorite airports. Data is sourced from OpenFlights.org under the Open
+  Database License (ODbL 1.0).
+url: https://airportgap.com/docs
+image: https://airportgap.com/favicon.ico
+specificationVersion: '0.20'
+created: '2026-06-13'
+modified: '2026-06-13'
+x-source: public-apis/public-apis
+x-category: Transportation
+x-type: open-source
+x-tier: 2
+x-tier-reason: enriched-from-stub
+tags:
+  - Airports
+  - Aviation
+  - Transportation
+  - IATA
+  - ICAO
+  - Distance Calculation
+  - Geolocation
+apis:
+  - name: Airport Gap REST API
+    description: >-
+      RESTful API providing airport data retrieval by IATA code, paginated airport listings, distance calculations
+      between airports in miles, kilometers, and nautical miles, token-based authentication, and authenticated
+      management of saved favorite airports with optional notes. Responses follow the JSON:API specification.
+    humanURL: https://airportgap.com/docs
+    baseURL: https://airportgap.com/api/v1
+    tags:
+      - Airports
+      - Aviation
+      - Transportation
+      - IATA
+      - Distance Calculation
+      - JSON:API
+      - REST
+    properties:
+      - type: Documentation
+        url: https://airportgap.com/docs
+      - type: GitHubRepository
+        url: https://github.com/dennmart/airport_gap
+      - type: RateLimits
+        url: rate-limits/airport-gap-rate-limits.yml
+      - type: Plans
+        url: plans/airport-gap-plans-pricing.yml
+      - type: FinOps
+        url: finops/airport-gap-finops.yml
+common:
+  - type: Website
+    url: https://airportgap.com
+  - type: Documentation
+    url: https://airportgap.com/docs
+  - type: SignUp
+    url: https://airportgap.com/tokens/new
+  - type: GitHubRepository
+    url: https://github.com/dennmart/airport_gap
+  - type: Plans
+    url: plans/airport-gap-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/airport-gap-rate-limits.yml
+  - type: FinOps
+    url: finops/airport-gap-finops.yml
+features:
+  - name: Airport Data Retrieval
+    description: Fetch any airport by IATA code with full details including name, city, country, IATA/ICAO codes, coordinates, and altitude.
+  - name: Paginated Airport Listings
+    description: Browse the full airport database with 30 records per page using the ?page parameter.
+  - name: Distance Calculation
+    description: Calculate the distance between any two airports by IATA code, returned in miles, kilometers, and nautical miles.
+  - name: Token Authentication
+    description: Generate a Bearer token via POST /tokens using email and password to access protected endpoints.
+  - name: Favorite Airports Management
+    description: Authenticated users can add, list, update (notes), and delete saved favorite airports.
+  - name: Bulk Favorites Clear
+    description: A single endpoint removes all saved favorite airports from an account at once.
+  - name: JSON:API Responses
+    description: All responses conform to the JSON:API specification, with standardized data, links, and pagination envelopes.
+useCases:
+  - name: API Testing Practice
+    description: Use Airport Gap as a realistic target API for practicing REST automation testing with GET, POST, PATCH, and DELETE workflows.
+  - name: Airport Lookup
+    description: Integrate IATA-to-airport resolution into flight booking, travel, or logistics applications.
+  - name: Distance and Route Planning
+    description: Calculate great-circle distances between airports for route planning, fuel estimation, or travel time approximations.
+  - name: Authentication Flow Testing
+    description: Practice token-based authentication and Bearer token lifecycle management in test automation frameworks.
+  - name: CRUD Testing
+    description: Validate full create, read, update, and delete flows against the favorites endpoints in integration test suites.
+integrations:
+  - name: Open Source (MIT)
+    description: Full source available at github.com/dennmart/airport_gap under the MIT License for self-hosting or contribution.
+  - name: OpenFlights Data
+    description: Airport data sourced from OpenFlights.org under the Open Database License (ODbL 1.0).
+solutions:
+  - name: QA and Test Automation Teams
+    description: A purpose-built sandbox API for building and validating automated REST test suites.
+  - name: Developer Education
+    description: Realistic multi-resource API with auth, pagination, and distance math for API testing courses and bootcamps.
+  - name: Travel and Logistics Apps
+    description: Lightweight airport metadata and distance API for prototyping flight search or route planning features.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

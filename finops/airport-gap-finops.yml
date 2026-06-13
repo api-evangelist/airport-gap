@@ -1,0 +1,77 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Airport Gap
+providerId: airport-gap
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: false
+tags:
+  - FinOps
+  - FOCUS
+  - Airports
+  - Aviation
+  - Free API
+description: >-
+  Airport Gap is a free, open-source API with no monetary charges. FinOps concerns are limited
+  to operational cost (self-hosting infrastructure if running a private instance) and rate-limit
+  compliance. The service imposes a 100-requests-per-minute ceiling per IP; teams should track
+  request volume to stay within limits and avoid 429 errors that would degrade automated test
+  pipelines or production integrations.
+sources:
+  - https://airportgap.com
+  - https://airportgap.com/docs
+  - https://github.com/dennmart/airport_gap
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Dennis Martinez / Dev Tester
+serviceCategory: Developer Tools
+billingModel:
+  pricingCategory: Free
+  billingFrequency: N/A
+  billingCurrency: N/A
+  chargeCategories:
+    - Usage
+focusColumns:
+  ServiceName: Airport Gap REST API
+  ServiceCategory: Developer Tools
+  ServiceSubcategory: API Testing Sandbox
+  ProviderName: Airport Gap
+  PublisherName: Dennis Martinez / Dev Tester
+  InvoiceIssuerName: N/A
+  BillingCurrency: N/A
+  ChargeCategory: Usage
+meters:
+  - name: api_requests
+    unit: request
+    aggregation: sum
+    dimensions:
+      - source_ip
+      - endpoint
+    description: >-
+      HTTP requests sent to any Airport Gap endpoint, counted per IP per minute against the
+      100-request rate limit. No monetary cost; the meter is used purely for compliance monitoring.
+principles:
+  - name: Visibility
+    description: >-
+      Instrument your HTTP client or API gateway to count outbound requests to airportgap.com per minute
+      per source IP. Surface the count in your observability stack to detect approaching the 100 req/min
+      limit before a 429 response disrupts test runs or integrations.
+  - name: Allocation
+    description: >-
+      If multiple teams or pipelines share an IP egress point, attribute Airport Gap request volume per
+      team using HTTP client tagging or proxy logs. This prevents one pipeline from exhausting the shared
+      rate limit window and impacting others.
+  - name: Optimization
+    description: >-
+      Cache GET /airports and GET /airports/:id responses locally; airport data changes infrequently.
+      Batch distance checks (POST /airports/distance) into the minimum number of calls. Spread parallel
+      test suites across time windows or egress IPs to avoid rate-limit contention.
+  - name: Accountability
+    description: >-
+      Designate an owner for any self-hosted Airport Gap deployment. Track infrastructure costs (compute,
+      PostgreSQL) separately as internal FinOps line items if the instance runs in a paid cloud environment.
