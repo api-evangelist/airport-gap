@@ -58,7 +58,7 @@ common:
     url: https://airportgap.com
   - type: Documentation
     url: https://airportgap.com/docs
-  - type: SignUp
+  - type: Signup
     url: https://airportgap.com/tokens/new
   - type: GitHubRepository
     url: https://github.com/dennmart/airport_gap
