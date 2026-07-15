@@ -54,6 +54,8 @@ apis:
       - type: FinOps
         url: finops/airport-gap-finops.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/airport-gap-agentic-access.yml
   - type: DomainSecurity
     url: security/airport-gap-domain-security.yml
   - type: Authentication
