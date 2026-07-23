@@ -1,0 +1,235 @@
+openapi: 3.1.0
+info:
+  title: Airport Gap REST Airports API
+  description: Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information. The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows authenticated users to save and manage favorite airports. Responses conform to the JSON:API specification. Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).
+  version: 1.0.0
+  contact:
+    url: https://airportgap.com
+  license:
+    name: MIT
+    url: https://github.com/dennmart/airport_gap/blob/main/LICENCE
+  x-source: https://airportgap.com/docs
+servers:
+- url: https://airportgap.com/api
+  description: Production
+tags:
+- name: Airports
+  description: Retrieve airport information by IATA code or browse the full database.
+paths:
+  /airports:
+    get:
+      operationId: listAirports
+      summary: List airports
+      description: Returns a paginated list of all airports in the database. Each page contains up to 30 airport records. Use the ?page parameter to navigate pages.
+      tags:
+      - Airports
+      parameters:
+      - name: page
+        in: query
+        description: Page number to retrieve (1-based).
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        example: 2
+      responses:
+        '200':
+          description: Paginated list of airports.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AirportListData'
+              example:
+                data:
+                - id: JFK
+                  type: airport
+                  attributes:
+                    name: John F. Kennedy International Airport
+                    city: New York
+                    country: United States
+                    iata: JFK
+                    icao: KJFK
+                    latitude: '40.639751'
+                    longitude: '-73.778925'
+                    altitude: 13
+                    timezone: America/New_York
+                links:
+                  first: https://airportgap.com/api/airports?page=1
+                  prev: null
+                  next: https://airportgap.com/api/airports?page=2
+                  last: https://airportgap.com/api/airports?page=450
+        '429':
+          description: Rate limit exceeded (100 requests per minute).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /airports/{id}:
+    get:
+      operationId: getAirport
+      summary: Get airport by IATA code
+      description: Retrieves a single airport record by its IATA code. Returns full details including name, city, country, IATA/ICAO codes, coordinates, and altitude.
+      tags:
+      - Airports
+      parameters:
+      - name: id
+        in: path
+        description: IATA airport code (3 letters, e.g. "JFK").
+        required: true
+        schema:
+          type: string
+          pattern: ^[A-Z]{3}$
+        example: JFK
+      responses:
+        '200':
+          description: Single airport record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AirportData'
+              example:
+                data:
+                  id: JFK
+                  type: airport
+                  attributes:
+                    name: John F. Kennedy International Airport
+                    city: New York
+                    country: United States
+                    iata: JFK
+                    icao: KJFK
+                    latitude: '40.639751'
+                    longitude: '-73.778925'
+                    altitude: 13
+                    timezone: America/New_York
+        '404':
+          description: Airport not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    Airport:
+      type: object
+      description: Represents a single airport record conforming to JSON:API.
+      properties:
+        id:
+          type: string
+          description: IATA airport code (e.g. "JFK").
+          example: JFK
+        type:
+          type: string
+          enum:
+          - airport
+          example: airport
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Full name of the airport.
+              example: John F. Kennedy International Airport
+            city:
+              type: string
+              description: City where the airport is located.
+              example: New York
+            country:
+              type: string
+              description: Country where the airport is located.
+              example: United States
+            iata:
+              type: string
+              description: IATA airport code.
+              example: JFK
+            icao:
+              type: string
+              description: ICAO airport code.
+              example: KJFK
+            latitude:
+              type: string
+              description: Latitude coordinate of the airport.
+              example: '40.639751'
+            longitude:
+              type: string
+              description: Longitude coordinate of the airport.
+              example: '-73.778925'
+            altitude:
+              type: integer
+              description: Elevation of the airport in feet.
+              example: 13
+            timezone:
+              type: string
+              description: Timezone identifier.
+              example: America/New_York
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
+    PaginationLinks:
+      type: object
+      description: JSON:API pagination links.
+      properties:
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the previous page (null if on first page).
+        next:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the next page (null if on last page).
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    AirportData:
+      type: object
+      description: JSON:API envelope for a single airport.
+      properties:
+        data:
+          $ref: '#/components/schemas/Airport'
+    AirportListData:
+      type: object
+      description: JSON:API envelope for a paginated list of airports.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Airport'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Token-based authentication. Include the token generated from POST /tokens. Header format: Authorization: Bearer token=<Your Airport Gap Token>'
+externalDocs:
+  description: Airport Gap API Documentation
+  url: https://airportgap.com/docs

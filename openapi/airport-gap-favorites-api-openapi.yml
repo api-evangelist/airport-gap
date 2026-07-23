@@ -1,0 +1,414 @@
+openapi: 3.1.0
+info:
+  title: Airport Gap REST Airports Favorites API
+  description: Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information. The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows authenticated users to save and manage favorite airports. Responses conform to the JSON:API specification. Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).
+  version: 1.0.0
+  contact:
+    url: https://airportgap.com
+  license:
+    name: MIT
+    url: https://github.com/dennmart/airport_gap/blob/main/LICENCE
+  x-source: https://airportgap.com/docs
+servers:
+- url: https://airportgap.com/api
+  description: Production
+tags:
+- name: Favorites
+  description: Manage saved favorite airports (authenticated users only).
+paths:
+  /favorites:
+    get:
+      operationId: listFavorites
+      summary: List favorite airports
+      description: Returns a paginated list of the authenticated user's saved favorite airports. Each page contains up to 30 records.
+      tags:
+      - Favorites
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: page
+        in: query
+        description: Page number to retrieve (1-based).
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      responses:
+        '200':
+          description: Paginated list of favorite airports.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteListData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: addFavorite
+      summary: Add favorite airport
+      description: Saves an airport to the authenticated user's favorites list. An optional note can be attached to the favorite.
+      tags:
+      - Favorites
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - airport_id
+              properties:
+                airport_id:
+                  type: string
+                  description: IATA code of the airport to save.
+                  example: JFK
+                note:
+                  type: string
+                  description: Optional note about this favorite airport.
+                  example: Great layover airport
+            example:
+              airport_id: JFK
+              note: Great layover airport
+      responses:
+        '201':
+          description: Favorite airport created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Missing or invalid airport_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /favorites/{id}:
+    get:
+      operationId: getFavorite
+      summary: Get favorite airport
+      description: Retrieves a single saved favorite airport record by its numeric ID.
+      tags:
+      - Favorites
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Numeric ID of the favorite record.
+        required: true
+        schema:
+          type: integer
+        example: 42
+      responses:
+        '200':
+          description: Single favorite airport record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Favorite record not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: updateFavorite
+      summary: Update favorite airport note
+      description: Updates the note attached to a saved favorite airport.
+      tags:
+      - Favorites
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Numeric ID of the favorite record.
+        required: true
+        schema:
+          type: integer
+        example: 42
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: string
+                  nullable: true
+                  description: Updated note for the favorite airport.
+                  example: Updated note
+            example:
+              note: Updated note
+      responses:
+        '200':
+          description: Favorite airport updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteData'
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Favorite record not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteFavorite
+      summary: Delete favorite airport
+      description: Removes a single saved favorite airport by its numeric ID.
+      tags:
+      - Favorites
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        description: Numeric ID of the favorite record.
+        required: true
+        schema:
+          type: integer
+        example: 42
+      responses:
+        '204':
+          description: Favorite deleted successfully (no content).
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Favorite record not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /favorites/clear_all:
+    delete:
+      operationId: clearAllFavorites
+      summary: Clear all favorite airports
+      description: Removes all saved favorite airports for the authenticated user in a single operation.
+      tags:
+      - Favorites
+      security:
+      - BearerAuth: []
+      responses:
+        '204':
+          description: All favorites cleared successfully (no content).
+        '401':
+          description: Missing or invalid Bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    FavoriteListData:
+      type: object
+      description: JSON:API envelope for a paginated list of favorites.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Favorite'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+    Airport:
+      type: object
+      description: Represents a single airport record conforming to JSON:API.
+      properties:
+        id:
+          type: string
+          description: IATA airport code (e.g. "JFK").
+          example: JFK
+        type:
+          type: string
+          enum:
+          - airport
+          example: airport
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Full name of the airport.
+              example: John F. Kennedy International Airport
+            city:
+              type: string
+              description: City where the airport is located.
+              example: New York
+            country:
+              type: string
+              description: Country where the airport is located.
+              example: United States
+            iata:
+              type: string
+              description: IATA airport code.
+              example: JFK
+            icao:
+              type: string
+              description: ICAO airport code.
+              example: KJFK
+            latitude:
+              type: string
+              description: Latitude coordinate of the airport.
+              example: '40.639751'
+            longitude:
+              type: string
+              description: Longitude coordinate of the airport.
+              example: '-73.778925'
+            altitude:
+              type: integer
+              description: Elevation of the airport in feet.
+              example: 13
+            timezone:
+              type: string
+              description: Timezone identifier.
+              example: America/New_York
+    FavoriteData:
+      type: object
+      description: JSON:API envelope for a single favorite.
+      properties:
+        data:
+          $ref: '#/components/schemas/Favorite'
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
+    PaginationLinks:
+      type: object
+      description: JSON:API pagination links.
+      properties:
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the previous page (null if on first page).
+        next:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the next page (null if on last page).
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
+    Favorite:
+      type: object
+      description: Represents a saved favorite airport record conforming to JSON:API.
+      properties:
+        id:
+          type: string
+          description: Numeric ID of the favorite record.
+          example: '42'
+        type:
+          type: string
+          enum:
+          - favorite
+          example: favorite
+        attributes:
+          type: object
+          properties:
+            airport:
+              $ref: '#/components/schemas/Airport'
+            note:
+              type: string
+              nullable: true
+              description: Optional user note attached to the favorite.
+              example: Great layover airport
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Token-based authentication. Include the token generated from POST /tokens. Header format: Authorization: Bearer token=<Your Airport Gap Token>'
+externalDocs:
+  description: Airport Gap API Documentation
+  url: https://airportgap.com/docs

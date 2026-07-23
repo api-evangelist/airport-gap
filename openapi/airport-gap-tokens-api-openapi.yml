@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: Airport Gap REST Airports Tokens API
+  description: Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information. The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows authenticated users to save and manage favorite airports. Responses conform to the JSON:API specification. Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).
+  version: 1.0.0
+  contact:
+    url: https://airportgap.com
+  license:
+    name: MIT
+    url: https://github.com/dennmart/airport_gap/blob/main/LICENCE
+  x-source: https://airportgap.com/docs
+servers:
+- url: https://airportgap.com/api
+  description: Production
+tags:
+- name: Tokens
+  description: Generate Bearer tokens for authenticated access.
+paths:
+  /tokens:
+    post:
+      operationId: generateToken
+      summary: Generate API token
+      description: Authenticates a registered user with email and password and returns a Bearer token for use in subsequent authenticated API requests. Register at https://airportgap.com/tokens/new.
+      tags:
+      - Tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Registered user email address.
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  description: User account password.
+                  example: s3cr3tpassword
+            example:
+              email: user@example.com
+              password: s3cr3tpassword
+      responses:
+        '200':
+          description: API token generated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+              example:
+                token: abc123xyz
+        '422':
+          description: Invalid email or password.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    TokenResponse:
+      type: object
+      description: Bearer token returned after successful authentication.
+      properties:
+        token:
+          type: string
+          description: The API Bearer token to use in subsequent authenticated requests.
+          example: abc123xyz
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Token-based authentication. Include the token generated from POST /tokens. Header format: Authorization: Bearer token=<Your Airport Gap Token>'
+externalDocs:
+  description: Airport Gap API Documentation
+  url: https://airportgap.com/docs
