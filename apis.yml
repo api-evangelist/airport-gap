@@ -7,6 +7,19 @@ description: >-
   authenticated users to save and manage favorite airports. Data is sourced from OpenFlights.org under the Open
   Database License (ODbL 1.0).
 url: https://airportgap.com/docs
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://airportgap.com/favicon.ico
 specificationVersion: '0.20'
 created: '2026-06-13'
@@ -25,34 +38,86 @@ tags:
   - Distance Calculation
   - Geolocation
 apis:
-  - name: Airport Gap REST API
-    description: >-
-      RESTful API providing airport data retrieval by IATA code, paginated airport listings, distance calculations
-      between airports in miles, kilometers, and nautical miles, token-based authentication, and authenticated
-      management of saved favorite airports with optional notes. Responses follow the JSON:API specification.
-    humanURL: https://airportgap.com/docs
-    baseURL: https://airportgap.com/api/v1
-    tags:
-      - Airports
-      - Aviation
-      - Transportation
-      - IATA
-      - Distance Calculation
-      - JSON:API
-      - REST
-    properties:
-      - type: Documentation
-        url: https://airportgap.com/docs
-      - type: GitHubRepository
-        url: https://github.com/dennmart/airport_gap
-      - type: RateLimits
-        url: rate-limits/airport-gap-rate-limits.yml
-      - type: OpenAPI
-        url: openapi/openapi.yml
-      - type: Plans
-        url: plans/airport-gap-plans-pricing.yml
-      - type: FinOps
-        url: finops/airport-gap-finops.yml
+- aid: airport-gap:airport-gap-airports-api
+  name: Airport Gap Airports API
+  description: Retrieve airport information by IATA code or browse the full database.
+  humanURL: https://airportgap.com/docs
+  baseURL: https://airportgap.com/api/v1
+  tags:
+  - Airports
+  properties:
+  - type: OpenAPI
+    url: openapi/airport-gap-airports-api-openapi.yml
+  - type: Documentation
+    url: https://airportgap.com/docs
+  - type: GitHubRepository
+    url: https://github.com/dennmart/airport_gap
+  - type: RateLimits
+    url: rate-limits/airport-gap-rate-limits.yml
+  - type: Plans
+    url: plans/airport-gap-plans-pricing.yml
+  - type: FinOps
+    url: finops/airport-gap-finops.yml
+- aid: airport-gap:airport-gap-distance-api
+  name: Airport Gap Distance API
+  description: Calculate great-circle distances between two airports.
+  humanURL: https://airportgap.com/docs
+  baseURL: https://airportgap.com/api/v1
+  tags:
+  - Distance
+  properties:
+  - type: OpenAPI
+    url: openapi/airport-gap-distance-api-openapi.yml
+  - type: Documentation
+    url: https://airportgap.com/docs
+  - type: GitHubRepository
+    url: https://github.com/dennmart/airport_gap
+  - type: RateLimits
+    url: rate-limits/airport-gap-rate-limits.yml
+  - type: Plans
+    url: plans/airport-gap-plans-pricing.yml
+  - type: FinOps
+    url: finops/airport-gap-finops.yml
+- aid: airport-gap:airport-gap-favorites-api
+  name: Airport Gap Favorites API
+  description: Manage saved favorite airports (authenticated users only).
+  humanURL: https://airportgap.com/docs
+  baseURL: https://airportgap.com/api/v1
+  tags:
+  - Favorites
+  properties:
+  - type: OpenAPI
+    url: openapi/airport-gap-favorites-api-openapi.yml
+  - type: Documentation
+    url: https://airportgap.com/docs
+  - type: GitHubRepository
+    url: https://github.com/dennmart/airport_gap
+  - type: RateLimits
+    url: rate-limits/airport-gap-rate-limits.yml
+  - type: Plans
+    url: plans/airport-gap-plans-pricing.yml
+  - type: FinOps
+    url: finops/airport-gap-finops.yml
+- aid: airport-gap:airport-gap-tokens-api
+  name: Airport Gap Tokens API
+  description: Generate Bearer tokens for authenticated access.
+  humanURL: https://airportgap.com/docs
+  baseURL: https://airportgap.com/api/v1
+  tags:
+  - Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/airport-gap-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://airportgap.com/docs
+  - type: GitHubRepository
+    url: https://github.com/dennmart/airport_gap
+  - type: RateLimits
+    url: rate-limits/airport-gap-rate-limits.yml
+  - type: Plans
+    url: plans/airport-gap-plans-pricing.yml
+  - type: FinOps
+    url: finops/airport-gap-finops.yml
 common:
   - type: AgenticAccess
     url: agentic-access/airport-gap-agentic-access.yml
