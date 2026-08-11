@@ -119,6 +119,11 @@ apis:
   - type: FinOps
     url: finops/airport-gap-finops.yml
 common:
+  - type: IssueTracker
+    url: https://github.com/dennmart/airport_gap/issues
+  - type: License
+    name: MIT
+    url: https://github.com/dennmart/airport_gap/blob/main/LICENSE
   - type: AgenticAccess
     url: agentic-access/airport-gap-agentic-access.yml
   - type: DomainSecurity
