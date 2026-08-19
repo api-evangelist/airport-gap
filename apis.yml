@@ -21,7 +21,7 @@ accessModel:
   generated: '2026-07-22'
   method: derived
 image: https://airportgap.com/favicon.ico
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-06-13'
 modified: '2026-06-13'
 x-source: public-apis/public-apis
