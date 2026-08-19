@@ -1,0 +1,148 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Airport Gap REST Airports Favorites API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Favorites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List favorite airports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://airportgap.com/api/favorites",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (1-based)."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a paginated list of the authenticated user's saved favorite airports. Each page contains up to 30 records."
+        },
+        {
+          "info": {
+            "name": "Add favorite airport",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://airportgap.com/api/favorites",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Saves an airport to the authenticated user's favorites list. An optional note can be attached to the favorite."
+        },
+        {
+          "info": {
+            "name": "Get favorite airport",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://airportgap.com/api/favorites/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "42",
+                "type": "path",
+                "description": "Numeric ID of the favorite record."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a single saved favorite airport record by its numeric ID."
+        },
+        {
+          "info": {
+            "name": "Update favorite airport note",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://airportgap.com/api/favorites/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "42",
+                "type": "path",
+                "description": "Numeric ID of the favorite record."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the note attached to a saved favorite airport."
+        },
+        {
+          "info": {
+            "name": "Delete favorite airport",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://airportgap.com/api/favorites/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "42",
+                "type": "path",
+                "description": "Numeric ID of the favorite record."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes a single saved favorite airport by its numeric ID."
+        },
+        {
+          "info": {
+            "name": "Clear all favorite airports",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://airportgap.com/api/favorites/clear_all",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes all saved favorite airports for the authenticated user in a single operation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

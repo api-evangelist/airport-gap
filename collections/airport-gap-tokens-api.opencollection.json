@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Airport Gap REST Airports Tokens API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate API token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://airportgap.com/api/tokens",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authenticates a registered user with email and password and returns a Bearer token for use in subsequent authenticated API requests. Register at https://airportgap.com/tokens/new."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

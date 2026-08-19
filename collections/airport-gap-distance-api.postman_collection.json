@@ -1,0 +1,213 @@
+{
+  "item": [
+    {
+      "id": "85615d98-3f42-485a-b367-0eaeef2b176c",
+      "name": "Distance",
+      "description": {
+        "content": "Calculate great-circle distances between two airports.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1c519de2-d43c-45e7-93f5-9aca2de1ad40",
+          "name": "Calculate distance between airports",
+          "request": {
+            "name": "Calculate distance between airports",
+            "description": {
+              "content": "Calculates the great-circle distance between two airports identified by their IATA codes. Returns the distance in miles, kilometers, and nautical miles.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "airports",
+                "distance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": \"<string>\",\n  \"to\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "13f2d00f-c5ea-4903-a5c9-8c6241c1dcff",
+              "name": "Distance result between two airports.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports",
+                    "distance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from\": \"JFK\",\n  \"to\": \"LAX\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"JFK-LAX\",\n    \"type\": \"airport_distance\",\n    \"attributes\": {\n      \"from_airport\": {\n        \"id\": \"JFK\",\n        \"type\": \"airport\",\n        \"attributes\": {\n          \"name\": \"John F. Kennedy International Airport\",\n          \"city\": \"New York\",\n          \"country\": \"United States\",\n          \"iata\": \"JFK\",\n          \"icao\": \"KJFK\",\n          \"latitude\": \"40.639751\",\n          \"longitude\": \"-73.778925\",\n          \"altitude\": 13,\n          \"timezone\": \"America/New_York\"\n        }\n      },\n      \"to_airport\": {\n        \"id\": \"LAX\",\n        \"type\": \"airport\",\n        \"attributes\": {\n          \"name\": \"Los Angeles International Airport\",\n          \"city\": \"Los Angeles\",\n          \"country\": \"United States\",\n          \"iata\": \"LAX\",\n          \"icao\": \"KLAX\",\n          \"latitude\": \"33.942536\",\n          \"longitude\": \"-118.408075\",\n          \"altitude\": 125,\n          \"timezone\": \"America/Los_Angeles\"\n        }\n      },\n      \"miles\": 2475.6,\n      \"kilometers\": 3984.2,\n      \"nautical_miles\": 2150.8\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eea3e16e-0799-4107-9ffb-ac8e4c194fc9",
+              "name": "Missing or invalid IATA codes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports",
+                    "distance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from\": \"JFK\",\n  \"to\": \"LAX\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64e6e1e4-bed3-4aee-b5f1-eddaddb6901c",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports",
+                    "distance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"from\": \"JFK\",\n  \"to\": \"LAX\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://airportgap.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c1ff944d-ddc1-4d72-8f99-4b85fcfeea2b",
+    "name": "Airport Gap REST Airports Distance API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information. The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows authenticated users to save and manage favorite airports. Responses conform to the JSON:API specification. Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).",
+      "type": "text/plain"
+    }
+  }
+}

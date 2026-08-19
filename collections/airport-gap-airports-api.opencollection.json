@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Airport Gap REST Airports API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Airports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List airports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://airportgap.com/api/airports",
+            "params": [
+              {
+                "name": "page",
+                "value": "2",
+                "type": "query",
+                "description": "Page number to retrieve (1-based)."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of all airports in the database. Each page contains up to 30 airport records. Use the ?page parameter to navigate pages."
+        },
+        {
+          "info": {
+            "name": "Get airport by IATA code",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://airportgap.com/api/airports/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "JFK",
+                "type": "path",
+                "description": "IATA airport code (3 letters, e.g. \"JFK\")."
+              }
+            ]
+          },
+          "docs": "Retrieves a single airport record by its IATA code. Returns full details including name, city, country, IATA/ICAO codes, coordinates, and altitude."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,330 @@
+{
+  "item": [
+    {
+      "id": "b65c1454-1990-4421-882b-a3d2497662b4",
+      "name": "Airports",
+      "description": {
+        "content": "Retrieve airport information by IATA code or browse the full database.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8081033c-bd50-4dda-b764-291f9a8723b3",
+          "name": "List airports",
+          "request": {
+            "name": "List airports",
+            "description": {
+              "content": "Returns a paginated list of all airports in the database. Each page contains up to 30 airport records. Use the ?page parameter to navigate pages.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "airports"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number to retrieve (1-based)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f7c3a525-93de-495d-99f6-6542d5dcf54f",
+              "name": "Paginated list of airports.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"JFK\",\n      \"type\": \"airport\",\n      \"attributes\": {\n        \"name\": \"John F. Kennedy International Airport\",\n        \"city\": \"New York\",\n        \"country\": \"United States\",\n        \"iata\": \"JFK\",\n        \"icao\": \"KJFK\",\n        \"latitude\": \"40.639751\",\n        \"longitude\": \"-73.778925\",\n        \"altitude\": 13,\n        \"timezone\": \"America/New_York\"\n      }\n    }\n  ],\n  \"links\": {\n    \"first\": \"https://airportgap.com/api/airports?page=1\",\n    \"prev\": null,\n    \"next\": \"https://airportgap.com/api/airports?page=2\",\n    \"last\": \"https://airportgap.com/api/airports?page=450\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d40acbbe-dd48-43f2-b012-74acdfda825a",
+              "name": "Rate limit exceeded (100 requests per minute).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44d3695d-00a3-4ad3-abac-8b3f4359a331",
+          "name": "Get airport by IATA code",
+          "request": {
+            "name": "Get airport by IATA code",
+            "description": {
+              "content": "Retrieves a single airport record by its IATA code. Returns full details including name, city, country, IATA/ICAO codes, coordinates, and altitude.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "airports",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) IATA airport code (3 letters, e.g. \"JFK\")."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2a264c5a-9bb5-4364-830a-9942bd6ea481",
+              "name": "Single airport record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) IATA airport code (3 letters, e.g. \"JFK\")."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"JFK\",\n    \"type\": \"airport\",\n    \"attributes\": {\n      \"name\": \"John F. Kennedy International Airport\",\n      \"city\": \"New York\",\n      \"country\": \"United States\",\n      \"iata\": \"JFK\",\n      \"icao\": \"KJFK\",\n      \"latitude\": \"40.639751\",\n      \"longitude\": \"-73.778925\",\n      \"altitude\": 13,\n      \"timezone\": \"America/New_York\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f71a19e2-b45b-4979-960f-13e398a1db1c",
+              "name": "Airport not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) IATA airport code (3 letters, e.g. \"JFK\")."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d215802b-e19b-47d4-a625-bcb4a4b2bcd9",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "airports",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) IATA airport code (3 letters, e.g. \"JFK\")."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    },\n    {\n      \"status\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://airportgap.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f3735a47-60e8-4ade-a442-e413ec361f7c",
+    "name": "Airport Gap REST Airports API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information. The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows authenticated users to save and manage favorite airports. Responses conform to the JSON:API specification. Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).",
+      "type": "text/plain"
+    }
+  }
+}

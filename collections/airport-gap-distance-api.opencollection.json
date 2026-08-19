@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Airport Gap REST Airports Distance API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Distance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Calculate distance between airports",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://airportgap.com/api/airports/distance",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Calculates the great-circle distance between two airports identified by their IATA codes. Returns the distance in miles, kilometers, and nautical miles."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
