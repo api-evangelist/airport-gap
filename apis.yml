@@ -7,6 +7,20 @@ description: >-
   authenticated users to save and manage favorite airports. Data is sourced from OpenFlights.org under the Open
   Database License (ODbL 1.0).
 url: https://airportgap.com/docs
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
