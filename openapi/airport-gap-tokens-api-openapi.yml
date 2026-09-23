@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Airport Gap REST Airports Tokens API
-  description: Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information. The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows authenticated users to save and manage favorite airports. Responses conform to the JSON:API specification. Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).
+  title: Airport Gap REST Tokens API
+  description: Airport Gap is a RESTful API designed to help developers practice API automation testing.
   version: 1.0.0
   contact:
     url: https://airportgap.com
