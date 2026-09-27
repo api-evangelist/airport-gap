@@ -116,22 +116,28 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    AirportListData:
+    PaginationLinks:
       type: object
-      description: JSON:API envelope for a paginated list of airports.
+      description: JSON:API pagination links.
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Airport'
-        links:
-          $ref: '#/components/schemas/PaginationLinks'
-    AirportData:
-      type: object
-      description: JSON:API envelope for a single airport.
-      properties:
-        data:
-          $ref: '#/components/schemas/Airport'
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the previous page (null if on first page).
+        next:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the next page (null if on last page).
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
     Airport:
       type: object
       description: Represents a single airport record conforming to JSON:API.
@@ -184,6 +190,22 @@ components:
               type: string
               description: Timezone identifier.
               example: America/New_York
+    AirportData:
+      type: object
+      description: JSON:API envelope for a single airport.
+      properties:
+        data:
+          $ref: '#/components/schemas/Airport'
+    AirportListData:
+      type: object
+      description: JSON:API envelope for a paginated list of airports.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Airport'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
     ErrorResponse:
       type: object
       description: JSON:API error envelope.
@@ -202,28 +224,6 @@ components:
               detail:
                 type: string
                 description: Detailed error message.
-    PaginationLinks:
-      type: object
-      description: JSON:API pagination links.
-      properties:
-        first:
-          type: string
-          format: uri
-          description: URL of the first page.
-        prev:
-          type: string
-          format: uri
-          nullable: true
-          description: URL of the previous page (null if on first page).
-        next:
-          type: string
-          format: uri
-          nullable: true
-          description: URL of the next page (null if on last page).
-        last:
-          type: string
-          format: uri
-          description: URL of the last page.
   securitySchemes:
     BearerAuth:
       type: http
