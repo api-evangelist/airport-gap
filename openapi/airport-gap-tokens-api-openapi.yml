@@ -63,6 +63,14 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    TokenResponse:
+      type: object
+      description: Bearer token returned after successful authentication.
+      properties:
+        token:
+          type: string
+          description: The API Bearer token to use in subsequent authenticated requests.
+          example: abc123xyz
     ErrorResponse:
       type: object
       description: JSON:API error envelope.
@@ -81,14 +89,6 @@ components:
               detail:
                 type: string
                 description: Detailed error message.
-    TokenResponse:
-      type: object
-      description: Bearer token returned after successful authentication.
-      properties:
-        token:
-          type: string
-          description: The API Bearer token to use in subsequent authenticated requests.
-          example: abc123xyz
   securitySchemes:
     BearerAuth:
       type: http

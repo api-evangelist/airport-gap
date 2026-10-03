@@ -99,6 +99,24 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
     DistanceData:
       type: object
       description: JSON:API envelope for distance result.
@@ -116,29 +134,6 @@ components:
               - airport_distance
             attributes:
               $ref: '#/components/schemas/DistanceAttributes'
-    DistanceAttributes:
-      type: object
-      description: Distance measurements between two airports.
-      properties:
-        from_airport:
-          $ref: '#/components/schemas/Airport'
-        to_airport:
-          $ref: '#/components/schemas/Airport'
-        miles:
-          type: number
-          format: float
-          description: Distance in miles.
-          example: 2475.6
-        kilometers:
-          type: number
-          format: float
-          description: Distance in kilometers.
-          example: 3984.2
-        nautical_miles:
-          type: number
-          format: float
-          description: Distance in nautical miles.
-          example: 2150.8
     Airport:
       type: object
       description: Represents a single airport record conforming to JSON:API.
@@ -191,24 +186,29 @@ components:
               type: string
               description: Timezone identifier.
               example: America/New_York
-    ErrorResponse:
+    DistanceAttributes:
       type: object
-      description: JSON:API error envelope.
+      description: Distance measurements between two airports.
       properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: string
-                description: HTTP status code string.
-              title:
-                type: string
-                description: Short error title.
-              detail:
-                type: string
-                description: Detailed error message.
+        from_airport:
+          $ref: '#/components/schemas/Airport'
+        to_airport:
+          $ref: '#/components/schemas/Airport'
+        miles:
+          type: number
+          format: float
+          description: Distance in miles.
+          example: 2475.6
+        kilometers:
+          type: number
+          format: float
+          description: Distance in kilometers.
+          example: 3984.2
+        nautical_miles:
+          type: number
+          format: float
+          description: Distance in nautical miles.
+          example: 2150.8
   securitySchemes:
     BearerAuth:
       type: http

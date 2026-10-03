@@ -272,6 +272,34 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
+    FavoriteListData:
+      type: object
+      description: JSON:API envelope for a paginated list of favorites.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Favorite'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
     PaginationLinks:
       type: object
       description: JSON:API pagination links.
@@ -294,29 +322,6 @@ components:
           type: string
           format: uri
           description: URL of the last page.
-    Favorite:
-      type: object
-      description: Represents a saved favorite airport record conforming to JSON:API.
-      properties:
-        id:
-          type: string
-          description: Numeric ID of the favorite record.
-          example: '42'
-        type:
-          type: string
-          enum:
-          - favorite
-          example: favorite
-        attributes:
-          type: object
-          properties:
-            airport:
-              $ref: '#/components/schemas/Airport'
-            note:
-              type: string
-              nullable: true
-              description: Optional user note attached to the favorite.
-              example: Great layover airport
     Airport:
       type: object
       description: Represents a single airport record conforming to JSON:API.
@@ -369,40 +374,35 @@ components:
               type: string
               description: Timezone identifier.
               example: America/New_York
+    Favorite:
+      type: object
+      description: Represents a saved favorite airport record conforming to JSON:API.
+      properties:
+        id:
+          type: string
+          description: Numeric ID of the favorite record.
+          example: '42'
+        type:
+          type: string
+          enum:
+          - favorite
+          example: favorite
+        attributes:
+          type: object
+          properties:
+            airport:
+              $ref: '#/components/schemas/Airport'
+            note:
+              type: string
+              nullable: true
+              description: Optional user note attached to the favorite.
+              example: Great layover airport
     FavoriteData:
       type: object
       description: JSON:API envelope for a single favorite.
       properties:
         data:
           $ref: '#/components/schemas/Favorite'
-    FavoriteListData:
-      type: object
-      description: JSON:API envelope for a paginated list of favorites.
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Favorite'
-        links:
-          $ref: '#/components/schemas/PaginationLinks'
-    ErrorResponse:
-      type: object
-      description: JSON:API error envelope.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: string
-                description: HTTP status code string.
-              title:
-                type: string
-                description: Short error title.
-              detail:
-                type: string
-                description: Detailed error message.
   securitySchemes:
     BearerAuth:
       type: http
