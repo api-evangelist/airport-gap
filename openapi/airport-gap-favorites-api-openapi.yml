@@ -272,6 +272,51 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    Favorite:
+      type: object
+      description: Represents a saved favorite airport record conforming to JSON:API.
+      properties:
+        id:
+          type: string
+          description: Numeric ID of the favorite record.
+          example: '42'
+        type:
+          type: string
+          enum:
+          - favorite
+          example: favorite
+        attributes:
+          type: object
+          properties:
+            airport:
+              $ref: '#/components/schemas/Airport'
+            note:
+              type: string
+              nullable: true
+              description: Optional user note attached to the favorite.
+              example: Great layover airport
+    PaginationLinks:
+      type: object
+      description: JSON:API pagination links.
+      properties:
+        first:
+          type: string
+          format: uri
+          description: URL of the first page.
+        prev:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the previous page (null if on first page).
+        next:
+          type: string
+          format: uri
+          nullable: true
+          description: URL of the next page (null if on last page).
+        last:
+          type: string
+          format: uri
+          description: URL of the last page.
     ErrorResponse:
       type: object
       description: JSON:API error envelope.
@@ -300,28 +345,6 @@ components:
             $ref: '#/components/schemas/Favorite'
         links:
           $ref: '#/components/schemas/PaginationLinks'
-    PaginationLinks:
-      type: object
-      description: JSON:API pagination links.
-      properties:
-        first:
-          type: string
-          format: uri
-          description: URL of the first page.
-        prev:
-          type: string
-          format: uri
-          nullable: true
-          description: URL of the previous page (null if on first page).
-        next:
-          type: string
-          format: uri
-          nullable: true
-          description: URL of the next page (null if on last page).
-        last:
-          type: string
-          format: uri
-          description: URL of the last page.
     Airport:
       type: object
       description: Represents a single airport record conforming to JSON:API.
@@ -374,29 +397,6 @@ components:
               type: string
               description: Timezone identifier.
               example: America/New_York
-    Favorite:
-      type: object
-      description: Represents a saved favorite airport record conforming to JSON:API.
-      properties:
-        id:
-          type: string
-          description: Numeric ID of the favorite record.
-          example: '42'
-        type:
-          type: string
-          enum:
-          - favorite
-          example: favorite
-        attributes:
-          type: object
-          properties:
-            airport:
-              $ref: '#/components/schemas/Airport'
-            note:
-              type: string
-              nullable: true
-              description: Optional user note attached to the favorite.
-              example: Great layover airport
     FavoriteData:
       type: object
       description: JSON:API envelope for a single favorite.

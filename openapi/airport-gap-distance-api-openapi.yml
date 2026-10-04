@@ -99,41 +99,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      description: JSON:API error envelope.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: string
-                description: HTTP status code string.
-              title:
-                type: string
-                description: Short error title.
-              detail:
-                type: string
-                description: Detailed error message.
-    DistanceData:
-      type: object
-      description: JSON:API envelope for distance result.
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Identifier composed of the two IATA codes.
-              example: JFK-LAX
-            type:
-              type: string
-              enum:
-              - airport_distance
-            attributes:
-              $ref: '#/components/schemas/DistanceAttributes'
     Airport:
       type: object
       description: Represents a single airport record conforming to JSON:API.
@@ -186,6 +151,24 @@ components:
               type: string
               description: Timezone identifier.
               example: America/New_York
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
     DistanceAttributes:
       type: object
       description: Distance measurements between two airports.
@@ -209,6 +192,23 @@ components:
           format: float
           description: Distance in nautical miles.
           example: 2150.8
+    DistanceData:
+      type: object
+      description: JSON:API envelope for distance result.
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Identifier composed of the two IATA codes.
+              example: JFK-LAX
+            type:
+              type: string
+              enum:
+              - airport_distance
+            attributes:
+              $ref: '#/components/schemas/DistanceAttributes'
   securitySchemes:
     BearerAuth:
       type: http
