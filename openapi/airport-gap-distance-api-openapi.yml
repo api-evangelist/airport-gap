@@ -151,24 +151,6 @@ components:
               type: string
               description: Timezone identifier.
               example: America/New_York
-    ErrorResponse:
-      type: object
-      description: JSON:API error envelope.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              status:
-                type: string
-                description: HTTP status code string.
-              title:
-                type: string
-                description: Short error title.
-              detail:
-                type: string
-                description: Detailed error message.
     DistanceAttributes:
       type: object
       description: Distance measurements between two airports.
@@ -192,6 +174,24 @@ components:
           format: float
           description: Distance in nautical miles.
           example: 2150.8
+    ErrorResponse:
+      type: object
+      description: JSON:API error envelope.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: HTTP status code string.
+              title:
+                type: string
+                description: Short error title.
+              detail:
+                type: string
+                description: Detailed error message.
     DistanceData:
       type: object
       description: JSON:API envelope for distance result.
