@@ -64,18 +64,151 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including IATA/ICAO codes, location coordinates, elevation, and country information. The API also calculates distances between airports and allows authenticated users to save and manage favorite airports.
+Airport Gap is a RESTful API designed to help developers practice API automation testing. It provides access to a database of worldwide airports including ICAO/IATA codes, location coordinates, elevation, and country information. The API also supports calculating distances between airports in miles, kilometers, and nautical miles, and allows authenticated users to save and manage favorite airports. Data is sourced from OpenFlights.org under the Open Database License (ODbL 1.0).
 
-**Base URL:** `https://airportgap.com/api/v1`  
-**Documentation:** https://airportgap.com/docs  
-**Source:** https://github.com/dennmart/airport_gap  
-**License:** MIT (API service free; data under ODbL 1.0)
+**Areas:** Airports · Aviation · Transportation · IATA · ICAO · Distance Calculation · Geolocation
 
-## APIs.json Profile
+## Airport Gap on APIs.io
 
-This repository contains the APIs.json 0.20 profile for Airport Gap, maintained by API Evangelist.
+Everything profiled for Airport Gap is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/airport-gap/](https://apis.io/providers/airport-gap/)** — or go straight to one of the APIs or properties below.
 
-- `apis.yml` — APIs.json provider profile
-- `plans/airport-gap-plans-pricing.yml` — Pricing and plan details (free)
-- `rate-limits/airport-gap-rate-limits.yml` — Rate limit documentation (100 req/min per IP)
-- `finops/airport-gap-finops.yml` — FinOps framework alignment
+### APIs (4)
+
+- [Airport Gap Airports API](https://apis.io/apis/airport-gap/airport-gap-airports-api/) — Retrieve airport information by IATA code or browse the full database.
+- [Airport Gap Distance API](https://apis.io/apis/airport-gap/airport-gap-distance-api/) — Calculate great-circle distances between two airports.
+- [Airport Gap Favorites API](https://apis.io/apis/airport-gap/airport-gap-favorites-api/) — Manage saved favorite airports (authenticated users only).
+- [Airport Gap Tokens API](https://apis.io/apis/airport-gap/airport-gap-tokens-api/) — Generate Bearer tokens for authenticated access.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Airport Gap Agentic Access](https://apis.io/agentic-access/airport-gap/airport-gap-agentic-access/)
+
+#### JSON Schema (3)
+
+The data models the API reads and writes.
+
+- [Airport](https://apis.io/schemas/airport-gap/airport/)
+- [AirportDistance](https://apis.io/schemas/airport-gap/distance/)
+- [Favorite](https://apis.io/schemas/airport-gap/favorite/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Airport Gap Context](https://apis.io/jsonld/airport-gap/airport-gap-context/)
+
+#### Examples (5)
+
+Example requests and responses.
+
+- [Delete Favorites Clear All](https://apis.io/examples/airport-gap/delete-favorites-clear-all/)
+- [Get Airport Jfk](https://apis.io/examples/airport-gap/get-airport-jfk/)
+- [Post Airports Distance](https://apis.io/examples/airport-gap/post-airports-distance/)
+- [Post Favorites](https://apis.io/examples/airport-gap/post-favorites/)
+- [Post Tokens](https://apis.io/examples/airport-gap/post-tokens/)
+
+#### Collections (4)
+
+Postman and Open Collection request collections.
+
+- [Airport Gap REST Airports API](https://apis.io/collections/airport-gap/open-airport-gap-airports-api/)
+- [Airport Gap REST Airports Distance API](https://apis.io/collections/airport-gap/open-airport-gap-distance-api/)
+- [Airport Gap REST Airports Favorites API](https://apis.io/collections/airport-gap/open-airport-gap-favorites-api/)
+- [Airport Gap REST Airports Tokens API](https://apis.io/collections/airport-gap/open-airport-gap-tokens-api/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Airport Gap — jsonschema rules](https://apis.io/rules/airport-gap/airport-gap-jsonschema-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Airport Gap Authentication](https://apis.io/security/airport-gap/airport-gap-authentication/)
+- [Airport Gap Domain Security](https://apis.io/security/airport-gap/airport-gap-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Airport Gap Plans Pricing](https://apis.io/plans/airport-gap/airport-gap-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Airport Gap Rate Limits](https://apis.io/rate-limits/airport-gap/airport-gap-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Airport Gap Finops](https://apis.io/finops/airport-gap/airport-gap-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://airportgap.com)
+- [Documentation](https://airportgap.com/docs)
+
+## API Evangelist rating
+
+**Kin Score 32.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 62.1 |
+| Contract governance | 9.8 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 21.4 |
+| Access clarity | 18.4 |
+
+**Agent readiness 28.7** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/airport-gap/](https://apis.io/providers/airport-gap/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Airport Gap: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/airport-gap/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
